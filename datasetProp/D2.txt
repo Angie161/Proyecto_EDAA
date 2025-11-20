@@ -1,0 +1,1 @@
+El arbol binario de busqueda es una estructura de datos fundamental
