@@ -73,18 +73,12 @@ generate_patterns_for_folder() {
     FIRST_FILE=$(ls "$FOLDER" | sort -V | head -n 1)
     FILE_PATH="$FOLDER/$FIRST_FILE"
 
-    echo " → Primer archivo seleccionado: $FIRST_FILE"
+    echo " Primer archivo seleccionado: $FIRST_FILE"
 
     TEXT_CONTENT=$(cat "$FILE_PATH")
     TEXT_LEN=${#TEXT_CONTENT}
 
-    sizes=()
-    size=64
-    while [ $size -lt $TEXT_LEN ]; do
-        sizes+=($size)
-        size=$((size * 2))
-    done
-    sizes+=($TEXT_LEN)
+    N_PATTERNS=10
 
     PATTERN_DIR="$FOLDER/patterns"
     mkdir -p "$PATTERN_DIR"
@@ -94,7 +88,8 @@ generate_patterns_for_folder() {
 
     echo "Generando patrones..."
 
-    for size in "${sizes[@]}"; do
+    for i in $(seq 1 $N_PATTERNS); do
+        size=$(( TEXT_LEN * i / N_PATTERNS ))
         pattern="${TEXT_CONTENT:0:$size}"
 
         # Escribimos el patrón y los $$$$$ sin saltos de línea extra
