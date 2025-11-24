@@ -18,9 +18,9 @@ string read_file(const string &filename) {
 
 pair<string, vector<size_t>> concat_files(const string &carpeta) {
     vector<fs::path> files;
-
+    
     for (const auto &entry : fs::directory_iterator(carpeta)) {
-        if (entry.is_regular_file()) {
+        if (entry.is_regular_file() && entry.path().extension() == ".xml") {
             files.push_back(entry.path());
         }
     }
@@ -34,7 +34,7 @@ pair<string, vector<size_t>> concat_files(const string &carpeta) {
 
     for (const auto &path : files) {
         if (!first) {
-            concat_text += '&';
+            concat_text += '$';
         }
         first = false;
 
@@ -64,10 +64,9 @@ void FMIndex::build(const string &folder_path) {
 }
 
 vector<size_t> FMIndex::doc_locate(const string &pattern) {
-    cout << "Patron buscado: " << pattern << endl; // FLAAAAAAAG
-    // Cunta las ocurrencias del patron dentro del texto
+    // Cuenta las ocurrencias del patron dentro del texto
     size_t range = count(fm_index, pattern.begin(), pattern.end());
-    // cout << "occ: " << range << endl;                                 //FLAAAAAAAG
+    //cout << "occ: " << range << endl;                                 //FLAAAAAAAG
     if (range <= 0) {
         cout << "No hay apariciones del patron" << endl;
         return {};
