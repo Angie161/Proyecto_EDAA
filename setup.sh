@@ -9,6 +9,9 @@ DATASET_ZIP='datasets.zip'
 EXAMPLES_DIR='datasets/examples'
 
 N_PATTERNS=10
+# N_PATTERNS=50
+# PATTERNS_LEN=(5 10 20 50)
+DELIMITER='$$$$$'
 
 ###############################
 # 1) DESCARGA DE DATASETS
@@ -30,9 +33,9 @@ download_texts() {
 
     echo "Generando ejemplos..."
     mkdir -p "$EXAMPLES_DIR"
-    echo 'Busqueda binaria corre en tiempo logaritmico' >"$EXAMPLES_DIR/D1.txt"
-    echo 'El arbol binario de búsqueda es una estructura fundamental' >"$EXAMPLES_DIR/D2.txt"
-    echo 'Solo quedan 6 semanas para fin de año' >"$EXAMPLES_DIR/D3.txt"
+    echo 'Búsqueda binaria corre en tiempo logarítmico' >"$EXAMPLES_DIR/D1.txt"
+    echo 'El árbol binario de búsqueda es una estructura de datos fundamental' >"$EXAMPLES_DIR/D2.txt"
+    echo 'Sólo quedan 6 semanas para fin de año' >"$EXAMPLES_DIR/D3.txt"
 }
 
 ###############################
@@ -47,6 +50,7 @@ normalize_file() {
     # Convertir a ASCII y eliminar caracteres no imprimibles + saltos de línea
     #iconv -f ISO-8859-1 -t ASCII//TRANSLIT -c < "$FILE" | \
     iconv -f UTF-8 -t ASCII//TRANSLIT -c < "$FILE" | \
+        # tr -d '\r' | tr '\n' ' ' | \
         awk '{gsub(/[^[:print:]]/, ""); printf "%s", $0}' > "$FILE.tmp"
 
     mv "$FILE.tmp" "$FILE"
@@ -58,7 +62,9 @@ normalize_file() {
 generate_patterns_for_folder() {
     local FOLDER="$1"
 
-    if [[ "$FOLDER" == *"examples" ]]; then return; fi
+    # if [[ "$FOLDER" == *"examples" ]]; then return; fi
+
+    if [[ "$FOLDER" == *"patterns"* ]]; then return; fi
 
     echo "Procesando carpeta: $FOLDER"
 
@@ -81,6 +87,27 @@ generate_patterns_for_folder() {
 
     echo " Generando $N_PATTERNS patrones..."
 
+
+    # # Generar patrones para cada longitud definida
+    # for LEN in "${LENGTHS[@]}"; do
+    #     # Generamos varios patrones por cada longitud
+    #     for k in {1..10}; do
+    #         # Elegir un punto de inicio aleatorio. 
+    #         # Aseguramos que start + len < TEXT_LEN
+    #         MAX_START=$((TEXT_LEN - LEN - 1))
+    #         if [ "$MAX_START" -gt 0 ]; then
+    #             START_POS=$(shuf -i 0-"$MAX_START" -n 1)
+    #
+    #             # Extraer substring
+    #             # dd es más seguro para bytes exactos que head/tail combinados
+    #             dd if="$FIRST_FILE" bs=1 skip="$START_POS" count="$LEN" 2>/dev/null >> "$OUT_FILE"
+    #
+    #             # Añadir delimitador
+    #             printf "$DELIMITER" >> "$OUT_FILE"
+    #         fi
+    #     done
+    # done
+
     for i in $(seq 1 $N_PATTERNS); do
         # tamaño del patron
         size=$((TEXT_LEN * i / N_PATTERNS))
@@ -90,7 +117,7 @@ generate_patterns_for_folder() {
         # head -c n file: lee los primeros n bytes de un archivo
         # evitamos guardar patrón en variables debido a posibles tamaños gigantes
         head -c "$size" "$FIRST_FILE" >>"$OUT_FILE"
-        printf '$$$$$' >>"$OUT_FILE"
+        printf "$DELIMITER" >>"$OUT_FILE"
 
         echo " Generado patrón de tamaño $size"
     done
@@ -110,14 +137,15 @@ main() {
     fi
 
     echo -e "Normalizando todos los archivos dentro directorio datasets..."
-    find datasets -type f -not -path "*/examples/*" -not -name ".*" | while read -r FILE; do
+    # find datasets -type f -not -path "*/examples/*" -not -name ".*" | while read -r FILE; do
+    find datasets -type f  -not -name ".*" | while read -r FILE; do
         normalize_file "$FILE"
     done
     echo -e "\nTodos los archivos normalizados.\n"
 
     echo -e "\nGenerando patrones…"
-    for DIR in datasets/*; do
-        [ -d "$DIR" ] && generate_patterns_for_folder "$DIR"
+    find datasets -type d -not -path "*/patterns" | while read -r DIR; do
+        generate_patterns_for_folder "$DIR"
     done
 
     echo -e "\nProceso COMPLETO."

@@ -1,5 +1,7 @@
 .cache/
 build/
 datasets/
+results/
 
 compile_commands.json
+concat.txt

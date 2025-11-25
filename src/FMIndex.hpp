@@ -12,6 +12,6 @@ class FMIndex {
     // Construcción del índice
     void build(const std::string &folder_path);
 
-    // Búsqueda de documento con coincidencia
+    // Búsqueda de documentos con coincidencia
     std::vector<size_t> doc_locate(const std::string &pattern);
 };

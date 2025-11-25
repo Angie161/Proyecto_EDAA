@@ -2,18 +2,15 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -O3 -march=native
 LDLIBS = -L/usr/local/lib -lsdsl -ldivsufsort -ldivsufsort64
 
-FM_SRC = src/fm_main.cpp src/FMIndex.cpp
-FM_OBJ = $(FM_SRC:src/%.cpp=build/%.o)
-FM = build/fm_exec
+SRC = $(wildcard src/*.cpp)
+OBJ = $(SRC:src/%.cpp=build/%.o)
 
-SA_SRC =
-SA_OBJ =
-SA = build/sa_exec
+TARGET = build/multidocs
 
-#all: $(FM) $(SA)
-all: $(FM)
 
-$(FM): $(FM_OBJ)
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
 	$(CXX) $^ $(LDLIBS) -o $@
 
 build/%.o: src/%.cpp | build/
