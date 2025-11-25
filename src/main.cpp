@@ -52,31 +52,48 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    csv << "type,text,pattern_len,time_ns,found_count\n";
+    csv << "type,text,pattern_len,time_ns,time_var,found_count\n";
     for (const string &p : patterns) {
         vector<size_t> results;
+        vector<long> times; 
+        times.reserve(reps);
 
         // SA
-        long total_time = 0.0;
+        long total_time = 0;
         for (unsigned i = 0; i < reps; i++) {
             t_start = high_resolution_clock::now();
             results = sa.doc_locate(p);
             t_end = high_resolution_clock::now();
             long ns = duration_cast<nanoseconds>(t_end - t_start).count();
             total_time += ns;
+            times.push_back(ns);
         }
-        csv << "SA," << docs_path << ',' << p.size() << ',' << total_time / reps << ',' << results.size() << '\n';
+
+        double mean = double(total_time) / reps;
+        double var = 0;
+        for (long v : times) var += (v - mean) * (v - mean);
+        var /= reps;
+
+        csv << "SA," << docs_path << ',' << p.size() << ',' << mean << ',' << var << ',' << results.size() << '\n';
 
         // FM
-        total_time = 0.0;
+        total_time = 0;
+        times.clear();
         for (unsigned i = 0; i < reps; i++) {
             t_start = high_resolution_clock::now();
             results = fm.doc_locate(p);
             t_end = high_resolution_clock::now();
             long ns = duration_cast<nanoseconds>(t_end - t_start).count();
             total_time += ns;
+            times.push_back(ns);
         }
-        csv << "FM," << docs_path << ',' << p.size() << ',' << total_time / reps << ',' << results.size() << '\n';
+
+        mean = double(total_time) / reps;
+        var = 0;
+        for (long v : times) var += (v - mean) * (v - mean);
+        var /= reps;
+
+        csv << "FM," << docs_path << ',' << p.size() << ',' << mean << ',' << var << ',' << results.size() << '\n';
     }
 
     csv.close();
