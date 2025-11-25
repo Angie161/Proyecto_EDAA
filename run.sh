@@ -4,6 +4,10 @@
 
 REPS=32
 
+mkdir -p results
+
 # Ejemplos
-./build/multidocs datasets/examples/ datasets/examples/patterns/patterns.txt results/examples_ns.csv $REPS
-./build/multidocs datasets/proteins/ datasets/proteins/patterns/patterns.txt results/proteins_ns.csv $REPS
+./build/multidocs datasets/examples/ datasets/examples/patterns/patterns.txt results/examples.csv $REPS
+./build/multidocs datasets/proteins/ datasets/proteins/patterns/patterns.txt results/proteins.csv $REPS
+./build/multidocs datasets/sources/ datasets/sources/patterns/patterns.txt results/sources.csv $REPS
+./build/multidocs datasets/dblp/ datasets/dblp/patterns/patterns.txt results/dblp.csv $REPS

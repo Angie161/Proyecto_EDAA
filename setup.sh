@@ -148,6 +148,9 @@ main() {
         generate_patterns_for_folder "$DIR"
     done
 
+    echo -e "\nCompilando todo..."
+    make
+
     echo -e "\nProceso COMPLETO."
 }
 
