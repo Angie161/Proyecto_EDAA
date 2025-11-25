@@ -20,4 +20,7 @@ class SuffixArray {
 
     // búsqueda de documentos que contienen el patrón
     std::vector<size_t> doc_locate(const std::string &pattern);
+
+    // retorna tamaño en megabytes
+    size_t get_size_mb() { return sdsl::size_in_mega_bytes(sa); };
 };

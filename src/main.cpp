@@ -16,12 +16,12 @@ int main(int argc, char *argv[]) {
     validate_args(argc, argv, docs_path, patterns_path, csv_path, reps);
 
     cout << "=== Inicio del Proyecto 2 EDAA ===" << endl;
-    cout << "Documentos: " << docs_path << endl;
-    cout << "Patrones: " << patterns_path << endl;
-    cout << "Repeticiones: " << reps << endl;
+    cout << "  Documentos: " << docs_path << endl;
+    cout << "  Patrones: " << patterns_path << endl;
+    cout << "  Repeticiones: " << reps << endl;
 
     // Construcción
-    cout << "\n* Construyendo índices..." << endl;
+    cout << "* Construyendo índices..." << endl;
 
     cout << "Construyendo Suffix Array..." << endl;
     SuffixArray sa;
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     sa.build(docs_path);
     auto t_end = high_resolution_clock::now();
     long time_build_sa = duration_cast<milliseconds>(t_end - t_start).count();
-    cout << "   Tiempo SA: " << time_build_sa << " ms" << endl;
+    cout << "  Tiempo SA: " << time_build_sa << " ms" << endl;
 
     cout << "Construyendo FM-Index..." << endl;
     FMIndex fm;
@@ -37,12 +37,12 @@ int main(int argc, char *argv[]) {
     fm.build(docs_path);
     t_end = high_resolution_clock::now();
     long time_build_fm = duration_cast<milliseconds>(t_end - t_start).count();
-    cout << "   Tiempo FM: " << time_build_fm << " ms" << endl;
+    cout << "  Tiempo FM: " << time_build_fm << " ms" << endl;
 
     // Carga de patrones
     cout << "\n* Cargando patrones..." << endl;
     vector<string> patterns = load_patterns_from_file(patterns_path);
-    cout << "Se cargaron " << patterns.size() << " patrones." << endl;
+    cout << "  Se cargaron " << patterns.size() << " patrones." << endl;
 
     // Ejecución de experimentos
     cout << "\n* Ejecutando búsquedas y guardando en CSV..." << endl;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    csv << "type,text,pattern_len,time_ns,time_var,found_count\n";
+    csv << "type,text,size_mb,pattern_len,time_ns,time_var,found_count\n";
     for (const string &p : patterns) {
         vector<size_t> results;
         vector<long> times; 
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
         for (long v : times) var += (v - mean) * (v - mean);
         var /= reps;
 
-        csv << "SA," << docs_path << ',' << p.size() << ',' << mean << ',' << var << ',' << results.size() << '\n';
+        csv << "SA," << docs_path << ',' << sa.get_size_mb() << ',' << p.size() << ',' << mean << ',' << var << ',' << results.size() << '\n';
 
         // FM
         total_time = 0;
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
         for (long v : times) var += (v - mean) * (v - mean);
         var /= reps;
 
-        csv << "FM," << docs_path << ',' << p.size() << ',' << mean << ',' << var << ',' << results.size() << '\n';
+        csv << "FM," << docs_path << ',' << fm.get_size_mb() << ',' << p.size() << ',' << mean << ',' << var << ',' << results.size() << '\n';
     }
 
     csv.close();

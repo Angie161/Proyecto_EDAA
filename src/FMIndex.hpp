@@ -14,4 +14,7 @@ class FMIndex {
 
     // Búsqueda de documentos con coincidencia
     std::vector<size_t> doc_locate(const std::string &pattern);
+
+    // Retornar tamaño en megabytes
+    size_t get_size_mb() { return sdsl::size_in_mega_bytes(fm_index); };
 };
