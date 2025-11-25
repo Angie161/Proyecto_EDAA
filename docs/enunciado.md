@@ -1,19 +1,13 @@
-Aquí tienes el contenido del archivo PDF transcrito a formato Markdown.
+# Proyecto 2: Detección de patrones en múltiples documentos
 
----
-
-# Departamento de Ingeniería Informática y Ciencias de la Computación - Universidad de Concepción
-
-## Estructuras de Datos y Algoritmos Avanzados
-
-**Proyecto 3: Detección de patrones en múltiples documentos**
+Curso: _Estructuras de Datos y Algoritmos Avanzados_ 2025-2
 
 - **Profesor:** José Fuentes Sepúlveda
 - **Ayudante:** Luciano Argomedo Solís
 
 ---
 
-### Objetivos
+## Objetivos
 
 Los objetivos de este proyecto son:
 
@@ -24,19 +18,24 @@ Los objetivos de este proyecto son:
 
 ---
 
-### 1. Descripción del problema
+## 1. Descripción del problema
 
 En este proyecto continuaremos con los resultados obtenidos en el proyecto 2, pero esta vez
 enfocados en la búsqueda de patrones en varios documentos. Para aplicar lo que sabemos sobre
 arreglos de sufijos, BWT y FM-index, consideraremos un gran texto resultante de la concatenación de
 todos los documentos sobre los que realizaremos las búsquedas.
 
-Por ejemplo, si tenemos los siguientes documentos $D1=$ "Búsqueda binaria corre en tiempo
-logarítmico", $D2=$ "El árbol binario de búsqueda es una estructura de datos fundamental" y $D3=$
-"Sólo quedan 6 semanas para fin de año", consideraremos su concatenación $T=D1\$D2\$D3=$ "Búsqueda
-binaria corre en tiempo logarítmico
-$El árbol binario de búsqueda es una estructura de datos fundamental$Sólo quedan 6 semanas para fin
-de año", donde el símbolo $\$$ se usa como separador.
+Por ejemplo, si tenemos los siguientes documentos:
+
+- $D1=$ "Búsqueda binaria corre en tiempo logarítmico"
+
+- $D2=$ "El árbol binario de búsqueda es una estructura de datos fundamental"
+
+- $D3=$ "Sólo quedan 6 semanas para fin de año"
+
+Consideraremos su concatenación $T=D1\$D2\$D3=$ "Búsqueda binaria corre en tiempo logarítmico \$El
+árbol binario de búsqueda es una estructura de datos fundamental\$Sólo quedan 6 semanas para fin de
+año", donde el símbolo $\$$ se usa como separador.
 
 Por ejemplo, si buscamos el patrón `bin`, nos interesa como respuesta los documentos D1 y D2,
 mientras que si buscamos el patrón `queda`, esperamos la respuesta D1, D2 y D3. En general, si
@@ -61,7 +60,7 @@ documentos:
 
 ---
 
-### 2. Objetivos específicos
+## 2. Objetivos específicos
 
 La entrega del proyecto, que consiste de un informe y el código fuente, debe satisfacer los
 siguientes objetivos:
@@ -80,7 +79,7 @@ siguientes objetivos:
 
 ---
 
-### 3. Condiciones
+## 3. Condiciones
 
 - El proyecto se realizará en grupos de 2 o 3 estudiantes. El informe debe reflejar claramente los
   autores del proyecto.
@@ -103,7 +102,7 @@ siguientes objetivos:
 
 ---
 
-### 4. Evaluación
+## 4. Evaluación
 
 La entrega del proyecto contará de lo siguiente:
 
@@ -120,7 +119,7 @@ La entrega del proyecto contará de lo siguiente:
 
 ---
 
-### 5. Código base
+## 5. Código base
 
 Este proyecto viene acompañado de dos archivos con código base:
 
