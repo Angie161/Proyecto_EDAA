@@ -17,14 +17,14 @@ vector<size_t> FMIndex::doc_locate(const string &pattern) {
     size_t range = count(fm_index, pattern.begin(), pattern.end());
     // cout << "occ: " << range << endl;                                 //FLAAAAAAAG
     if (range == 0) {
-        cout << "No hay apariciones del patron" << endl;
+        // cout << "No hay apariciones del patron" << endl;
         return {};
     }
 
     // Obtiene las posiciones de ocurrencias
     auto occs = locate(fm_index, pattern.begin(), pattern.end());
     if (occs.empty()) {
-        cout << "No se pudo localizar las apariciones del patron" << endl;
+        // cout << "No se pudo localizar las apariciones del patron" << endl;
         return {};
     }
 
