@@ -7,7 +7,6 @@ using namespace std;
 // Lector de archivo
 void FMIndex::build(const string &folder_path) {
     auto [t, offs] = concat_files(folder_path);
-    text = t;
     offsets = offs;
 
     construct(fm_index, CONCAT_FILE, 1);
