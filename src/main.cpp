@@ -52,7 +52,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Construir CSV
+    csv << fixed << setprecision(3);
     csv << "type,text,size_mb,pattern_len,time_ns,time_var,found_count\n";
+
     for (const string &p : patterns) {
         vector<size_t> results;
         vector<long> times; 
